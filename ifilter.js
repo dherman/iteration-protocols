@@ -2,7 +2,8 @@
 
 // Functional style
 function ifilter(predicate = a => a, iterable) {
-    var iter = iterable[@iterator]();
+    let iter = iterable[@iterator]();
+
     return {
         next: function() {
             if (!iter)

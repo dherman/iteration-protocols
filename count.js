@@ -1,7 +1,7 @@
 // count: returns evenly spaced values starting with start
 
 // Functional style
-function count(start=0, step=1) {
+function count(start = 0, step = 1) {
     let current = start;
     return {
         next: function() {

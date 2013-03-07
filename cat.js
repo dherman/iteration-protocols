@@ -1,8 +1,7 @@
 // cat: a compound iterator with sequencing
 
 // Python style
-function cat() {
-    let is = arguments;
+function cat(...is) {
     return {
         next: {
             let length;
@@ -23,8 +22,7 @@ function cat() {
 }
 
 // Java style
-function cat() {
-    let is = arguments;
+function cat(...is) {
     return {
         hasNext: function() {
             let length = is.length;
@@ -45,13 +43,12 @@ function cat() {
 }
 
 // C# style
-function cat() {
-    // TODO...
+function cat(...is) {
+    // TODO
 }
 
 // Functional style
-function cat() {
-    let is = arguments;
+function cat(...is) {
     return {
         next: function() {
             let length;
@@ -69,8 +66,7 @@ function cat() {
 }
 
 // Two-callback style
-function cat() {
-    let is = arguments;
+function cat(...is) {
     return {
         next: function(next, done) {
             let length;
@@ -92,8 +88,7 @@ function cat() {
 }
 
 // Node-callback style
-function cat() {
-    let is = arguments;
+function cat(...is) {
     return {
         next: function(cb) {
             let length;
