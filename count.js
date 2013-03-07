@@ -11,3 +11,12 @@ function count(start = 0, step = 1) {
         }
     };
 }
+
+// D-style ranges
+function count(start = 0, step = 1) {
+    return {
+        get empty() { return false; },
+        get front() { return start; },
+        popFront: function () { start += step; }
+    };
+}

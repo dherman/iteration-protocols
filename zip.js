@@ -79,3 +79,16 @@ function zip(i1, i2) {
         }
     };
 }
+
+// D-style ranges
+function zip(r1, r2) {
+    return {
+        get empty() { return r1.empty || r2.empty; },
+        // Returns a new array each time, hope that's ok!
+        get front() { return [r1.front, r2.front]; },
+        popFront: function () {
+            r1.popFront();
+            r2.popFront();
+        }
+    };
+}

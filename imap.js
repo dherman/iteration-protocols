@@ -21,3 +21,32 @@ function imap(fn = Array.of, ...iterables) {
         }
     };
 }
+
+// D-style ranges
+function imap(fn = Array.of, ...collections) {
+    let ranges = [for (c of collections) c.range()];
+    let frontReady = false;
+    let front;
+    return {
+        get empty() {
+            for (let r of ranges) {
+                if (r.empty)
+                    return true;
+            }
+            return false;
+        },
+        get front() {
+            if (!frontReady) {
+                let args = [for (let r of range) r.front];
+                front = fn(...args);
+                frontReady = true;
+            }
+            return front;
+        },
+        popFront: function () {
+            for (let r of ranges)
+                r.popFront();
+            frontReady = false;
+        }
+    };
+}
