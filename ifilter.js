@@ -16,3 +16,26 @@ function ifilter(predicate = a => a, iterable) {
         }
     };
 }
+
+// D-style ranges
+function ifilter(predicate = a => a, collection) {
+    let r = collection.range();
+    var ready = false;
+    return {
+        get empty() {
+            if (!ready) {
+                while (!r.empty && !predicate(r.front))
+                    r.popFront();
+                ready = true;
+            }
+            return r.empty;
+        },
+        get front() {
+            return r.front;
+        },
+        popFront: function () {
+            r.popFront();
+            ready = false;
+        }
+    };
+}

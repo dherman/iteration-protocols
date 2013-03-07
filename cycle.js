@@ -25,3 +25,32 @@ function cycle(iterable) {
         }
     };
 }
+
+// D-style ranges
+function cycle(collection) {
+    let r = collection.range();
+    let saved = [];
+    let i = 0;
+
+    return {
+        get empty() {
+            return r === null && saved.length === 0;
+        },
+        get front() {
+            return r ? r.front : saved[i];
+        },
+        popFront: function () {
+            if (r) {
+                saved[i++] = r.front;
+                r.popFront();
+                if (r.empty) {
+                    r = null;
+                    i = 0;
+                }
+            } else {
+                if (++i === saved.length)
+                    i = 0;
+            }
+        }
+    };
+}

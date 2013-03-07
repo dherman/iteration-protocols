@@ -106,3 +106,25 @@ function cat(...is) {
         }
     };
 }
+
+// D-style ranges
+// (This example iterates forward through rs instead of backwards.)
+function cat(...rs) {
+    var rangeRange = rs.range();
+    function advance() {
+        while (!rangeRange.empty && rangeRange.front.empty)
+            rangeRange.popFront();
+    }
+    return {
+        get front() {
+            return rangeRange.front.front;
+        },
+        popFront: function () {
+            rangeRange.front.popFront();
+            advance();
+        },
+        get empty() {
+            return rangeRange.empty;
+        }
+    };
+}

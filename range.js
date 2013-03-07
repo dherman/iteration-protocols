@@ -74,3 +74,12 @@ function range(low, high) {
         }
     };
 }
+
+// D-style ranges
+function range(low, high) {
+    return {
+        get empty() { return this.front >= high; },
+        front: low,
+        popFront: function () { this.front++; }
+    };
+}

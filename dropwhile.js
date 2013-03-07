@@ -21,3 +21,22 @@ function dropwhile(predicate, iterable) {
         }
     };
 }
+
+// D-style ranges
+function dropwhile(predicate, collection) {
+    var r = collection.range();
+    var first = true;
+    return {
+        get empty() {
+            // The consumer must call this before the other methods.
+            if (first) {
+                while (!r.empty && predicate(r.front))
+                    r.popFront();
+                first = false;
+            }
+            return r.empty;
+        },
+        get front() { return r.front; },
+        popFront: function () { r.popFront(); }
+    };
+}

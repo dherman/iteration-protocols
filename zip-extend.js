@@ -126,3 +126,20 @@ function zipExtend(i1, i2, extendWith) {
         }
     };
 }
+
+// D-style ranges
+function zipExtend(r1, r2, extendWith) {
+    return {
+        get empty() { return r1.empty && r2.empty; },
+        get front() {
+            return [r1.empty ? extendWith : r1.front,
+                    r2.empty ? extendWith : r2.front];
+        },
+        popFront: function () {
+            if (!r1.empty)
+                r1.popFront();
+            if (!r2.empty)
+                r2.popFront();
+        }
+    };
+}
