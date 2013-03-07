@@ -38,12 +38,12 @@ function zip(i1, i2) {
     return {
         next: function() {
             let x1 = i1.next();
-            if (!x1)
-                return null;
+            if (x1.done)
+                return x1;
             let x2 = i2.next();
-            if (!x2)
-                return null;
-            return { value: [x1, x2] };
+            if (x2.done)
+                return x2;
+            return { done: false, value: [x1, x2] };
         }
     }
 }

@@ -17,11 +17,11 @@ function cycle(iterable) {
                 iter = null;
             }
             if (saved.length === 0)
-                return null;
+                return { done: true };
             var v = saved[i++];
             if (i === saved.length)
                 i = 0;
-            return { value: v };
+            return { done: false, value: v };
         }
     };
 }

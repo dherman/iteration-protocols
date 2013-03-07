@@ -8,14 +8,14 @@ function dropwhile(predicate, iterable) {
     return {
         next: function() {
             if (!iter)
-                return null;
+                return { done: true };
             var v = iter.next();
             if (first) {
-                while (v && predicate(v.value))
+                while (!v.done && predicate(v.value))
                     v = iter.next();
                 first = false;
             }
-            if (!v)
+            if (v.done)
                 iter = null;
             return v;
         }

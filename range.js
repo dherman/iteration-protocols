@@ -50,7 +50,7 @@ function range(low, high) {
     let i = low;
     return {
         next: function() {
-            return i >= high ? null : { value: i++ };
+            return i >= high ? { done: true } : { done: false, value: i++ };
         }
     };
 }

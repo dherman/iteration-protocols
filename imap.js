@@ -11,13 +11,13 @@ function imap(fn = Array.of, ...iterables) {
             var args = [];
             for (let it of iters) {
                 let v = it.next();
-                if (!v) {
+                if (v.done) {
                     iters = null;
-                    return null;
+                    return v;
                 }
                 args[args.length] = v.value;
             }
-            return { value: fn(...args) };
+            return { done: false, value: fn(...args) };
         }
     };
 }

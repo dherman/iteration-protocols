@@ -82,9 +82,10 @@ function zipExtend(i1, i2, extendWith) {
     return {
         next: function() {
             var x1 = i1.next(), x2 = i2.next();
-            return (!x1 && !x2) ? null : {
-                value: [x1 ? x1.value : extendWith,
-                        x2 ? x2.value : extendWith]
+            return (x1.done && x2.done) ? { done: true } : {
+                done: false,
+                value: [x1.done ? x1.value : extendWith,
+                        x2.done ? x2.value : extendWith]
             };
         }
     };

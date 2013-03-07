@@ -54,13 +54,13 @@ function cat(...is) {
             let length;
             while ((length = is.length) > 0) {
                 let next = is[length - 1].next();
-                if (!next) {
+                if (next.done) {
                     is.pop();
                     continue;
                 }
                 return next;
             }
-            return null;
+            return { done: true };
         }
     };
 }

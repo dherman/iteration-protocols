@@ -7,11 +7,10 @@ function ifilter(predicate = a => a, iterable) {
     return {
         next: function() {
             if (!iter)
-                return null;
-            var v;
-            while ((v = iter.next()) && !predicate(v.value))
-                v = iter.next();
-            if (!v)
+                return { done: true };
+            let v;
+            for (v = iter.next(); !v.done && !predicate(v.value); v = iter.next()) { }
+            if (v.done)
                 iter = null;
             return v;
         }

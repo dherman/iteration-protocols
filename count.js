@@ -7,7 +7,7 @@ function count(start = 0, step = 1) {
         next: function() {
             let result = current;
             current += step;
-            return result;
+            return { done: false, value: result };
         }
     };
 }
