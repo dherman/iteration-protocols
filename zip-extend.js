@@ -30,38 +30,26 @@ function zipExtend(i1, i2, extendWith) {
 
 // Python style
 function zipExtend(i1, i2, extendWith) {
-    let done1 = false, done2 = false;
+    function next(i, ifDone) {
+        try {
+            return i.next();
+        } catch (e) {
+            if (isStopIteration(e)) {
+                ifDone();
+                return extendWith;
+            }
+            throw e;
+        }
+    }
+ 
     return {
         next: function() {
-            let x1, x2;
-            if (done1) {
-                x1 = extendWith;
-            } else {
-                try {
-                    x1 = i1.next();
-                } catch (e) {
-                    if (isStopIteration(e)) {
-                        done1 = true;
-                        x1 = extendWith;
-                    } else {
-                        throw e;
-                    }
-                }
-            }
-            if (done2) {
-                x2 = extendWith;
-            } else {
-                try {
-                    x2 = i2.next();
-                } catch (e) {
-                    if (isStopIteration(e)) {
-                        done2 = true;
-                        x2 = extendWith;
-                    } else {
-                        throw e;
-                    }
-                }
-            }
+            let x1 = done1 ? extendWith : next(i1, function() {
+                done1 = true;
+            });
+            let x2 = done2 ? extendWith : next(i2, function() {
+                done2 = true;
+            });
             if (done1 && done2)
                 throw StopIteration;
             return [x1, x2];
