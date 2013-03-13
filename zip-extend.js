@@ -91,6 +91,19 @@ function zipExtend(i1, i2, extendWith) {
     };
 }
 
+// Sentinel style
+function zipExtend(i1, i2, extendWith) {
+    return {
+        next: function(done, isDone) {
+            var x1 = i1.next(done, isDone),
+                x2 = i2.next(done, isDone);
+            return (isDone(x1) && isDone(x2))
+                 ? done()
+                 : [x1, x2];
+        }
+    }
+}
+
 // Two-callback style
 function zipExtend(i1, i2, extendWith) {
     return {

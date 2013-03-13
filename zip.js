@@ -45,7 +45,22 @@ function zip(i1, i2) {
                 return x2;
             return { done: false, value: [x1, x2] };
         }
-    }
+    };
+}
+
+// Sentinel style
+function zip(i1, i2) {
+    return {
+        next: function(done, isDone) {
+            let x1 = i1.next(done, isDone);
+            if (isDone(x1))
+                return x1;
+            let x2 = i2.next(done, isDone);
+            if (isDone(x2))
+                return x2;
+            return [x1, x2];
+        }
+    };
 }
 
 // Two-callback style

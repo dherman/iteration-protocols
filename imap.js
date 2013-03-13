@@ -7,7 +7,7 @@ function imap(fn = Array.of, ...iterables) {
     return {
         next: function() {
             if (!iters)
-                return null;
+                return { done: true };
             var args = [];
             for (let it of iters) {
                 let v = it.next();
@@ -18,6 +18,28 @@ function imap(fn = Array.of, ...iterables) {
                 args[args.length] = v.value;
             }
             return { done: false, value: fn(...args) };
+        }
+    };
+}
+
+// Sentinel style
+function imap(fn = Array.of, ...iterables) {
+    let iters = [for (c of iterables) c[@iterator]()];
+
+    return {
+        next: function(done, isDone) {
+            if (!iters)
+                return done();
+            var args = [];
+            for (let it of iters) {
+                let v = it.next(done, isDone);
+                if (isDone(v)) {
+                    iters = null;
+                    return v;
+                }
+                args[args.length] = v;
+            }
+            return fn(...args);
         }
     };
 }

@@ -55,6 +55,16 @@ function range(low, high) {
     };
 }
 
+// Sentinel style
+function range(low, high) {
+    let i = low;
+    return {
+        next: function(done, isDone) {
+            return i >= high ? done() : i++;
+        }
+    }
+}
+
 // Two-callback style
 function range(low, high) {
     let i = low;

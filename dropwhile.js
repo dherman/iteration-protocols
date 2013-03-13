@@ -22,6 +22,28 @@ function dropwhile(predicate, iterable) {
     };
 }
 
+// Sentinel style.
+function dropwhile(predicate, iterable) {
+    let iter = iterable[@iterator]();
+    let first = false;
+
+    return {
+        next: function(done, isDone) {
+            if (!iter)
+                return done();
+            let v = iter.next(done, isDone);
+            if (first) {
+                while (!isDone(v) && predicate(v))
+                    v = iter.next(done, isDone);
+                first = false;
+            }
+            if (isDone(v))
+                iter = null;
+            return v;
+        }
+    };
+}
+
 // D-style ranges
 function dropwhile(predicate, collection) {
     var r = collection.range();

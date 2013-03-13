@@ -26,6 +26,32 @@ function cycle(iterable) {
     };
 }
 
+// Sentinel style
+function cycle(iterable) {
+    let iter = iterable[@iterator]();
+    let saved = [];
+    let i = 0;
+
+    return {
+        next: function(done, isDone) {
+            if (iter) {
+                let v = iter.next(done, isDone);
+                if (!isDone(v)) {
+                    saved[saved.length] = v;
+                    return v;
+                }
+                iter = null;
+            }
+            if (saved.length === 0)
+                return done();
+            let v = saved[i++];
+            if (i === saved.length)
+                i = 0;
+            return v;
+        }
+    };
+}
+
 // D-style ranges
 function cycle(collection) {
     let r = collection.range();

@@ -17,6 +17,23 @@ function ifilter(predicate = a => a, iterable) {
     };
 }
 
+// Sentinel style
+function ifilter(predicate = a => a, iterable) {
+    let iter = iterable[@iterator]();
+
+    return {
+        next: function(done, isDone) {
+            if (!iter)
+                return done();
+            let v;
+            for (v = iter.next(done, isDone); !isDone(v) && !predicate(v); v = iter.next(done, isDone)) { }
+            if (isDone(v))
+                iter = null;
+            return v;
+        }
+    };
+}
+
 // D-style ranges
 function ifilter(predicate = a => a, collection) {
     let r = collection.range();

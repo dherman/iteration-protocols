@@ -65,6 +65,24 @@ function cat(...is) {
     };
 }
 
+// Sentinel style
+function cat(...is) {
+    return {
+        next: function(done, isDone) {
+            let length;
+            while ((length = is.length) > 0) {
+                let next = is[length - 1].next(done, isDone);
+                if (isDone(next)) {
+                    is.pop();
+                    continue;
+                }
+                return next;
+            }
+            return done();
+        }
+    };
+}
+
 // Two-callback style
 function cat(...is) {
     return {
